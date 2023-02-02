@@ -12,7 +12,6 @@ const get_current_electricity_price = async() => {
     const response = await fetch(`${PRICE_ENDPOINT}?date=${date}&hour=${hour}`);
     const { price } = await response.json();
 
-    console.log(`Hinta nyt on ${price}`);
     return price
 }
 

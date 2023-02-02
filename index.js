@@ -15,9 +15,30 @@ const getPrices = async () => {
   }
 };
 
+const getCurrentPrice = async () => {
+    try {
+    const response = await fetch("http://localhost:5000/current_price", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const data = await response.json();
+    return data
+
+  } catch(err) {
+    console.log(err)
+  }
+};
+
+
 const main = async () => {
-    let data = await getPrices()
-    document.getElementById("text").innerHTML = JSON.stringify(data);
+    let data = await getPrices();
+    document.getElementById("text").innerHTML = `Sähkön tunnittainen hintadata (48h):<br><br>${JSON.stringify(data)}`;
+    let current_price = await getCurrentPrice();
+
+    document.getElementById("current_price_text").innerHTML = `Sähkönhinta tällä hetkellä = ${current_price} snt / kWh`;
     create_chart(data);
 }
 main()
