@@ -1,5 +1,7 @@
 import fetch from "node-fetch"
 
+// Fetch data from API: https://porssisahko.net/api
+
 const get_current_electricity_price = async() => {
     const PRICE_ENDPOINT = 'https://api.porssisahko.net/v1/price.json';
 
@@ -22,7 +24,7 @@ const get_latest_prices = async() => {
     return prices;
 }
 
-// app.js
+// Ports
 
 import express from 'express'
 
