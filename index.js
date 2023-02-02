@@ -1,5 +1,3 @@
-
-
 const getPrices = async () => {
   try {
     const response = await fetch("http://localhost:5000/latest_prices", {
@@ -19,7 +17,6 @@ const getPrices = async () => {
 
 const main = async () => {
     let data = await getPrices()
-    console.log(data)
     document.getElementById("text").innerHTML = JSON.stringify(data);
     create_chart(data);
 }
@@ -28,45 +25,30 @@ main()
 
 const create_chart = (data) => {
 
-    chart_data = []
+    chart_x = []
+    chart_y = []
 
-    console.log(data[0]["price"])
-    console.log(data.length)
-    for (let i = 0; i < data.length; i++) {
-        chart_data.push({x: i, y: data[i]["price"]})
+    for (let i = data.length - 1; i >= 0; i--) {
+        chart_x.push(data[i]["startDate"].split(":")[0])
+        chart_y.push(data[i]["price"])
     }
-    console.log(chart_data)
-
-    var xyValues = [
-        {x:50, y:7},
-        {x:60, y:8},
-        {x:70, y:8},
-        {x:80, y:9},
-        {x:90, y:9},
-        {x:100, y:9},
-        {x:110, y:10},
-        {x:120, y:11},
-        {x:130, y:14},
-        {x:140, y:14},
-        {x:150, y:15}
-    ];
 
     let chart = document.getElementById("myChart")
-    console.log(chart)
     new Chart(chart, {
-    type: "scatter",
+    type: "line",
     data: {
+        labels: chart_x,
         datasets: [{
-        pointRadius: 4,
-        pointBackgroundColor: "rgb(0,0,255)",
-        data: chart_data
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,0,1.0)",
+        borderColor: "rgba(0,0,0,0.8)",
+        data: chart_y
         }]
-    },
-    options: {
-        legend: {display: false},
-        scales: {
-        }
-    }
-    });
+  },
+  options: {
+    legend: {display: false},
+  }
+});
 }
 
